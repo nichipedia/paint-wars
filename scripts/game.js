@@ -1,48 +1,18 @@
 // Create the canvas
 var ctx = document.getElementById('layer1').getContext('2d');
+var color = document.getElementById('layer2').getContext('2d');
+var playerCtx = document.getElementById('layer3').getContext('2d');
 
 
 
-
-var color = document.getElementById('layer2').getContext("2d");
-
-
-
-// Background image
-var bgReady = false;
-var bgImage = new Image();
-bgImage.onload = function () {
-	bgReady = true;
-};
-bgImage.src = "images/background.png";
-
-// Background image
-var heroReady = false;
-var heroImage = new Image();
-heroImage.onload = function () {
-	heroReady = true;
-};
-heroImage.src = "images/hero.png";
-
-// Background image
-var monsterReady = false;
-var monsterImage = new Image();
-monsterImage.onload = function () {
-	monsterReady = true;
-};
-monsterImage.src = "images/monster.png";
 
 // Game objects
 var hero = {
 	speed: 256, // movement in pixels per second
-	x: 0,
-	y: 0
+	x: 16,
+	y: 16
 };
-var monster = {
-	x: 0,
-	y: 0
-};
-var monstersCaught = 0;
+
 
 // Handle keyboard controls
 var keysDown = {};
@@ -69,57 +39,65 @@ var reset = function () {
 // Update game objects
 var update = function (modifier) {
 	if (38 in keysDown) { // Player holding up
-		hero.y -= hero.speed * modifier;
+		if ((hero.y - (hero.speed * modifier)) > 0) {
+			hero.y -= hero.speed * modifier;
+		}
 	}
 	if (40 in keysDown) { // Player holding down
-		hero.y += hero.speed * modifier;
+		if ((hero.y + (hero.speed * modifier)) < 480) {
+			hero.y += hero.speed * modifier;
+		}
 	}
 	if (37 in keysDown) { // Player holding left
-		hero.x -= hero.speed * modifier;
+		if ((hero.x - (hero.speed * modifier)) > 0) {
+			hero.x -= hero.speed * modifier;
+		}
 	}
 	if (39 in keysDown) { // Player holding right
-		hero.x += hero.speed * modifier;
+		if ((hero.x + (hero.speed * modifier)) < 512) {
+			hero.x += hero.speed * modifier;
+		}
 	}
 
-	// Are they touching?
-	if (
-		hero.x <= (monster.x + 32)
-		&& monster.x <= (hero.x + 32)
-		&& hero.y <= (monster.y + 32)
-		&& monster.y <= (hero.y + 32)
-	) {
-		++monstersCaught;
-		reset();
-	}
+	// // Are they touching?
+	// if (
+	// 	hero.x <= (monster.x + 32)
+	// 	&& monster.x <= (hero.x + 32)
+	// 	&& hero.y <= (monster.y + 32)
+	// 	&& monster.y <= (hero.y + 32)
+	// ) {
+	// 	++monstersCaught;
+	// 	reset();
+	// }
 };
 
 // Draw everything
 var render = function () {
-	// if (bgReady) {
-	// 	ctx.drawImage(bgImage, 0, 0);
-	// }
+	playerCtx.clearRect(0,0,512,480);
+	playerCtx.beginPath();
+	playerCtx.arc(hero.x,hero.y,8,0,2*Math.PI);
+	playerCtx.fillStyle = "#FF0000";
+	playerCtx.fill();
+	playerCtx.stroke();
 
-	// if (heroReady) {
-	// 	ctx.drawImage(heroImage, hero.x, hero.y);
-	// }
+	var imgData = color.getImageData(hero.x, hero.y, 1, 1);
+	//console.log('Red: ' + imgData.data[0] + ' Green: ' + imgData.data[1] + ' Blue: ' + imgData.data[2]);
 
-	// if (monsterReady) {
-	// 	ctx.drawImage(monsterImage, monster.x, monster.y);
-	// }
-
-	// // Score
-	// ctx.fillStyle = "rgb(250, 250, 250)";
-	// ctx.font = "24px Helvetica";
-	// ctx.textAlign = "left";
-	// ctx.textBaseline = "top";
-	// ctx.fillText("Monsterrs caught: " + monstersCaught, 32, 32);
-	if (bgReady) {
-		bgReady = false;
-		
+	if (imgData.data[0] == 0) {
+		drawTile(hero.x - 8, hero.y - 8);
 	}
 
-
 };
+
+
+function getPixel(imgData, index) {
+  var i = index*4, d = imgData.data;
+  return [d[i],d[i+1],d[i+2],d[i+3]] // returns array [R,G,B,A]
+}
+
+function getPixelXY(imgData, x, y) {
+  return getPixel(imgData, y*imgData.width+x);
+}
 
 
 
@@ -132,9 +110,7 @@ var drawGrid = function() {
 	}
 }
 
-var colorfy = function() {
-	var x = 114;
-	var y = 160;
+var drawTile = function(x, y) {
 	x = Math.round(x/16) * 16;
 	y = Math.round(y/16) * 16;
 	color.fillStyle = "#FF0000";
@@ -160,4 +136,4 @@ var main = function () {
 
 var then = Date.now();
 drawGrid();
-colorfy();
+main();
