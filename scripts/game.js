@@ -10,7 +10,15 @@ var playerCtx = document.getElementById('layer3').getContext('2d');
 var hero = {
 	speed: 256, // movement in pixels per second
 	x: 16,
-	y: 16
+	y: 16,
+	paint: true
+};
+
+var player2 = {
+	speed: 256,
+	x: 60,
+	y: 60,
+	paint: true
 };
 
 
@@ -23,6 +31,12 @@ addEventListener("keydown", function (e) {
 
 addEventListener("keyup", function (e) {
 	delete keysDown[e.keyCode];
+	if (e.keyCode == 32) {
+		player2.paint = true;
+	}
+	if (e.keyCode == 13) {
+		hero.paint = true;
+	}
 }, false);
 
 
@@ -58,35 +72,85 @@ var update = function (modifier) {
 			hero.x += hero.speed * modifier;
 		}
 	}
-
-	// // Are they touching?
-	// if (
-	// 	hero.x <= (monster.x + 32)
-	// 	&& monster.x <= (hero.x + 32)
-	// 	&& hero.y <= (monster.y + 32)
-	// 	&& monster.y <= (hero.y + 32)
-	// ) {
-	// 	++monstersCaught;
-	// 	reset();
-	// }
+	if (87 in keysDown) {
+		if ((player2.y - (player2.speed * modifier)) > 0) {
+			player2.y -= player2.speed * modifier;
+		}
+	}
+	if (65 in keysDown) {
+		if ((player2.x - (player2.speed * modifier)) > 0) {
+			player2.x -= player2.speed * modifier;
+		}
+	}
+	if (83 in keysDown) {
+		if ((player2.y + (player2.speed * modifier)) < 480) {
+			player2.y += player2.speed * modifier;
+		}
+	}
+	if (68 in keysDown) {
+		if ((player2.x + (player2.speed * modifier)) < 512) {
+			player2.x += player2.speed * modifier;
+		}
+	}
+	if (13 in keysDown) {
+		hero.paint = false;
+	}
+	if (32 in keysDown) {
+		player2.paint = false;
+	}
 };
 
 // Draw everything
 var render = function () {
 	playerCtx.clearRect(0,0,512,480);
-	playerCtx.beginPath();
-	playerCtx.arc(hero.x,hero.y,8,0,2*Math.PI);
-	playerCtx.fillStyle = "#FF0000";
-	playerCtx.fill();
-	playerCtx.stroke();
 
-	var imgData = color.getImageData(hero.x, hero.y, 1, 1);
-	//console.log('Red: ' + imgData.data[0] + ' Green: ' + imgData.data[1] + ' Blue: ' + imgData.data[2]);
-
-	if (imgData.data[0] == 0) {
-		drawTile(hero.x - 8, hero.y - 8);
+	if (hero.paint) {
+		playerCtx.beginPath();
+		playerCtx.arc(hero.x,hero.y,8,0,2*Math.PI);
+		playerCtx.fillStyle = "#FF0000";
+		playerCtx.fill();
+		playerCtx.stroke();
+		var player1ImgData = color.getImageData(hero.x, hero.y, 1, 1);
+		if (player1ImgData.data[0] == 0) {
+			drawRedTile(hero.x - 8, hero.y - 8);
+		}
+	} else {
+		playerCtx.beginPath();
+		playerCtx.arc(hero.x,hero.y,8,0,2*Math.PI);
+		playerCtx.fillStyle = "#FFFF00";
+		playerCtx.fill();
+		playerCtx.stroke();
+		
+		playerCtx.beginPath();
+		playerCtx.arc(hero.x,hero.y,4,0,2*Math.PI);
+		playerCtx.fillStyle = "#FF0000";
+		playerCtx.fill();
+		playerCtx.stroke();
 	}
 
+	if (player2.paint) {
+		playerCtx.beginPath();
+		playerCtx.arc(player2.x,player2.y,8,0,2*Math.PI);
+		playerCtx.fillStyle = "#00FF00";
+		playerCtx.fill();
+		playerCtx.stroke();
+		var player2ImgData = color.getImageData(player2.x, player2.y, 1, 1);
+		if (player2ImgData.data[1] == 0) {
+			drawGreenTile(player2.x - 8, player2.y - 8);
+		}
+	} else {
+		playerCtx.beginPath();
+		playerCtx.arc(player2.x,player2.y,8,0,2*Math.PI);
+		playerCtx.fillStyle = "#FFFF00";
+		playerCtx.fill();
+		playerCtx.stroke();
+
+		playerCtx.beginPath();
+		playerCtx.arc(player2.x,player2.y,4,0,2*Math.PI);
+		playerCtx.fillStyle = "#00FF00";
+		playerCtx.fill();
+		playerCtx.stroke();
+	}
 };
 
 
@@ -110,7 +174,7 @@ var drawGrid = function() {
 	}
 }
 
-var drawTile = function(x, y) {
+var drawRedTile = function(x, y) {
 	x = Math.round(x/16) * 16;
 	y = Math.round(y/16) * 16;
 	color.fillStyle = "#FF0000";
@@ -118,6 +182,13 @@ var drawTile = function(x, y) {
 	color.stroke();
 }
 
+var drawGreenTile = function(x, y) {
+	x = Math.round(x/16) * 16;
+	y = Math.round(y/16) * 16;
+	color.fillStyle = "#00FF00";
+	color.fillRect(x,y,16,16);
+	color.stroke();
+}
 
 
 // The main game loop
