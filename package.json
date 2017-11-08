@@ -1,0 +1,19 @@
+{
+  "name": "paint-wars",
+  "version": "1.0.0",
+  "description": "Browser based paint game",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nichipedia/paint-wars.git"
+  },
+  "author": "Nicholas Moran",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/nichipedia/paint-wars/issues"
+  },
+  "homepage": "https://github.com/nichipedia/paint-wars#readme"
+}

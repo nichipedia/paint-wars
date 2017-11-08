@@ -1,0 +1,17 @@
+{
+  "name": "paint-wars",
+  "description": "Browser based paint game",
+  "main": "index.js",
+  "authors": [
+    "Nicholas Moran"
+  ],
+  "license": "ISC",
+  "homepage": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
