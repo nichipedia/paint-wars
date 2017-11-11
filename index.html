@@ -3,18 +3,16 @@
     <head>
         <meta charset="UTF-8">
         <title>Paint Wars</title>
-        <author>Nicholas Moran</author>
-        <link rel="stylesheet" href="./css/bootstrap.min.css" type="text/css" media="screen">
-        <link rel="stylesheet" href="./css/bootstrap-grid.min.css" type="text/css" media="screen">
-        <link rel="stylesheet" href="./css/bootstrap-reboot.min.css" type="text/css" media="screen">
-        <script type="text/javascript" src="./js/jquery-3.2.1.min.js"></script>
-        <script type="text/javascript" src="./js/bootstrap.bundle.min.js"></script>
+        <link rel="stylesheet" href="./bower_components/bootstrap/dist/css/bootstrap.min.css" type="text/css" media="screen">
+        <link rel="stylesheet" href="./bower_components/bootstrap/dist/css/bootstrap-theme.min.css" type="text/css" media="screen">
+        <script type="text/javascript" src="./bower_components/jquery/dist/jquery.min.js"></script>
+        <script type="text/javascript" src="./bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
     </head>
     <body>
         <div class="container">
             <div id="main" class="row">
                 <div class="col-md-6">
-                    <a href="javascript:void(0)" class="prim"> <button type="button" class="btn btn-primary play">Primary</button> </a>
+                    <a href="javascript:void(0)" class="prim"> <button type="button" class="btn btn-primary play">Start Game</button> </a>
                 </div>
             </div>
             <div style="position: relative;">
@@ -39,6 +37,19 @@
                             </div>
                             <div class="col-sm-6">
                                 <h3 id="player2">0</h3>
+                            </div>
+						</div>
+						<div class="row">
+                            <div class="col-sm-6">
+                                <h3>Seconds Remaining: </h3>
+                            </div>
+                            <div class="col-sm-6">
+                                <h3 id="clock">0</h3>
+                            </div>
+						</div>
+						<div class="row">
+                            <div class="col-sm-12">
+                                <h3 id="deathPrompt"></h3>
                             </div>
                         </div>
                     </div>
