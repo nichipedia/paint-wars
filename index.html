@@ -15,7 +15,21 @@
                     <a href="javascript:void(0)" class="prim"> <button type="button" class="btn btn-primary play">Start Game</button> </a>
                 </div>
             </div>
-            <div style="position: relative;">
+            <div id="results" class="row">
+                <div id="winner" class="col-md-3">
+
+                </div>
+                <div class="col-md-3">
+                    <a href="javascript:void(0)" class="restart"> <button type="button" class="btn btn-primary play">Replay Game</button> </a>
+                </div>
+                <div id="red-results" class="col-md-3">
+
+                </div>
+                <div id="green-results" class="col-md-3">
+
+                </div>
+            </div>
+            <div id="game-area" style="position: relative;">
                 <div class="row">
                     <div class="col-md-6">
                         <canvas id="layer1" width="512" height="480" style="position: absolute; z-index: 0;"></canvas>

@@ -10,6 +10,7 @@
 	var then = Date.now();
 
 	$('#scoreboard').hide();
+	$('#results').hide();
 
 	$('.prim').click(function () {
 		$('#main').hide();
@@ -19,7 +20,17 @@
 		main();
 	});
 
+	$('.restart').click(function() {
+		$('#results').hide();
+		reset();
+		drawGrid();
+		$('#scoreboard').show();
+		timer();
+		main();
+	});
+
 	function timer() {  
+		sec = 60;
 		var id = window.setInterval(function() {
 			sec--;
 			if (sec < 0) {
@@ -88,6 +99,22 @@
 		playerCtx.clearRect(0, 0, 512, 480);
         ctx.clearRect(0,0,512,480);
         color.clearRect(0,0,512,480);
+		player1 ={
+			speed: 256, // movement in pixels per second
+			x: 16,
+			y: 16,
+			paint: true,
+			score: 0,
+			dead: false
+		};
+		player2 = {
+			speed: 256,
+			x: 60,
+			y: 60,
+			paint: true,
+			score: 0,
+			dead: false
+		};
 	};
 
 	// Update game objects
@@ -276,11 +303,15 @@
 			// Request to do this again ASAP
 			requestAnimationFrame(main);
 		} else {
+			$('#game-area').hide();
 			if (player1.score > player2.score) {
-				console.log('Player 1 wins');
+				document.getElementById('winner').innerHTML = 'Red player has won!';
 			} else {
-				console.log('Player 2 wins');
+				document.getElementById('winner').innerHTML = 'Green player has won!';
 			}
+			document.getElementById('red-results').innerHTML = 'Red player scored: ' + player1.score;
+			document.getElementById('green-results').innerHTML = 'Green player scored: ' + player2.score;
+			$('#results').show();
 		}
 	}
 })(jQuery);
