@@ -24,7 +24,7 @@
 		$('#results').hide();
 		reset();
 		drawGrid();
-		$('#scoreboard').show();
+		$('#game-area').show();
 		timer();
 		main();
 	});
@@ -115,6 +115,9 @@
 			score: 0,
 			dead: false
 		};
+		document.getElementById('red-results').innerHTML = '';
+		document.getElementById('green-results').innerHTML = '';
+		document.getElementById('winner').innerHTML = '';
 	};
 
 	// Update game objects
