@@ -1,5 +1,6 @@
 (function ($) {
 	// Create the canvas
+	var menuElement = document.getElementById('layer3');
 	var ctx = document.getElementById('layer1').getContext('2d');
 	var color = document.getElementById('layer2').getContext('2d');
 	var playerCtx = document.getElementById('layer3').getContext('2d');
@@ -8,26 +9,9 @@
 	var yellow = "#FFFF00"
 	var sec = 60;
 	var then = Date.now();
-
-	$('#scoreboard').hide();
-	$('#results').hide();
-
-	$('.prim').click(function () {
-		$('#main').hide();
-		drawGrid();
-		$('#scoreboard').show();
-		timer();
-		main();
-	});
-
-	$('.restart').click(function() {
-		$('#results').hide();
-		reset();
-		drawGrid();
-		$('#game-area').show();
-		timer();
-		main();
-	});
+	var topOffSet = 20;
+	drawMainMenu();
+	var state;
 
 	function timer() {  
 		sec = 60;
@@ -40,13 +24,32 @@
 		}, 1000)
 	}
 
+	function clear() {
+		ctx.clearRect(0, 0, 1270, 900);
+		color.clearRect(0, 0, 1270, 900);
+		playerCtx.clearRect(0, 0, 1270, 900);
+	}
+
+	menuElement.addEventListener('click', function(event) {
+		if (state == "menu") {
+			var x = event.pageX;
+			var y = event.pageY - topOffSet;
+			if (x >= 650 && x <= 950 && y >= 200 && y <= 300) { 
+				clear();
+				drawGrid();
+				timer();
+				main();
+			}
+		}
+	}, false);
+
 	function deathTimer(i, n) {
 		var death = window.setInterval(function() {
-			document.getElementById('deathPrompt').innerHTML = "Player " + n + " is dead for " + i + " more seconds";
+			//document.getElementById('deathPrompt').innerHTML = "Player " + n + " is dead for " + i + " more seconds";
 			i--;
 			if (i < 0) {
 				clearInterval(death);
-				document.getElementById('deathPrompt').innerHTML = "";
+				//document.getElementById('deathPrompt').innerHTML = "";
 				if (n == 1) {
 					player1.dead = false;
 				} else {
@@ -54,6 +57,34 @@
 				}
 			}
 		}, 1000)
+	}
+
+	function drawBackArrow() {
+		
+	}
+
+	function drawInstructions() {
+		reset();
+		drawTile();
+
+	}
+
+	function drawMainMenu() {
+		reset();
+		drawTitle();
+		ctx.font = '20px serif';
+		ctx.fillStyle = "blue";
+		ctx.fillRect(650, 200, 300, 100);
+		ctx.fillStyle = "red";
+		ctx.fillRect(950, 200, 300, 100);
+		ctx.fillStyle = "black";
+		ctx.fillText("Start Game", 730, 260);
+		ctx.fillText('Instructions', 1030, 260);
+	}
+
+	function drawTitle() {
+		ctx.font = '48px serif';
+		ctx.fillText('Welcome to Paint Wars!', 650, 100);
 	}
 
 	// Game objects
@@ -75,7 +106,6 @@
 		dead: false
 	};
 
-
 	// Handle keyboard controls
 	var keysDown = {};
 
@@ -93,13 +123,11 @@
 		}
 	}, false);
 
-
 	// Reset the game when the player catches a monster
 	function reset() {
-		playerCtx.clearRect(0, 0, 512, 480);
-        ctx.clearRect(0,0,512,480);
-        color.clearRect(0,0,512,480);
-		player1 ={
+		state = "menu";
+		clear();
+		player1 = {
 			speed: 256, // movement in pixels per second
 			x: 16,
 			y: 16,
@@ -115,9 +143,6 @@
 			score: 0,
 			dead: false
 		};
-		document.getElementById('red-results').innerHTML = '';
-		document.getElementById('green-results').innerHTML = '';
-		document.getElementById('winner').innerHTML = '';
 	};
 
 	// Update game objects
@@ -177,7 +202,6 @@
 	// Draw everything
 	function render() {
 		playerCtx.clearRect(0, 0, 512, 480);
-
 		if (!player1.dead) {
 			if (player1.paint) {
 				playerCtx.beginPath();
@@ -223,7 +247,6 @@
 			playerCtx.stroke();
 			console.log('player 1 dead');
 		}
-
 
 		if (!player2.dead) {
 			if (player2.paint) {
@@ -289,23 +312,20 @@
 		color.stroke();
 	}
 
-
 	// The main game loop
 	function main() {
-		
 		if (sec > 0) {
+			state = "game";
 			var now = Date.now();
 			var delta = now - then;
-			document.getElementById('clock').innerHTML = sec;
 			update(delta / 1000);
 			render();
-
-
 			then = now;
-
 			// Request to do this again ASAP
 			requestAnimationFrame(main);
 		} else {
+			state = "results";
+
 			$('#game-area').hide();
 			if (player1.score > player2.score) {
 				document.getElementById('winner').innerHTML = 'Red player has won!';

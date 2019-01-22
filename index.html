@@ -3,69 +3,16 @@
     <head>
         <meta charset="UTF-8">
         <title>Paint Wars</title>
-        <link rel="stylesheet" href="./bower_components/bootstrap/dist/css/bootstrap.min.css" type="text/css" media="screen">
-        <link rel="stylesheet" href="./bower_components/bootstrap/dist/css/bootstrap-theme.min.css" type="text/css" media="screen">
-        <script type="text/javascript" src="./bower_components/jquery/dist/jquery.min.js"></script>
-        <script type="text/javascript" src="./bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+        <script type="text/javascript" src="./scripts/jquery-3.3.1.min.js"></script>
     </head>
     <body>
         <div class="container">
-            <div id="main" class="row">
-                <div class="col-md-6">
-                    <a href="javascript:void(0)" class="prim"> <button type="button" class="btn btn-primary play">Start Game</button> </a>
-                </div>
-            </div>
-            <div id="results" class="row">
-                <div id="winner" class="col-md-3">
-
-                </div>
-                <div class="col-md-3">
-                    <a href="javascript:void(0)" class="restart"> <button type="button" class="btn btn-primary play">Replay Game</button> </a>
-                </div>
-                <div id="red-results" class="col-md-3">
-
-                </div>
-                <div id="green-results" class="col-md-3">
-
-                </div>
-            </div>
             <div id="game-area" style="position: relative;">
                 <div class="row">
                     <div class="col-md-6">
-                        <canvas id="layer1" width="512" height="480" style="position: absolute; z-index: 0;"></canvas>
-                        <canvas id="layer2" width="512" height="480" style="position: absolute; z-index: 1;"></canvas>
-                        <canvas id="layer3" width="512" height="480" style="position: absolute; z-index: 2;"></canvas>
-                    </div>
-                    <div class="col-md-6" id="scoreboard">
-                        <div class="row">
-                            <div class="col-sm-6">
-                                <h3>Red Player: </h3>
-                            </div>
-                            <div class="col-sm-6">
-                                <h3 id="player1">0</h3>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-sm-6">
-                                <h3>Green Player: </h3>
-                            </div>
-                            <div class="col-sm-6">
-                                <h3 id="player2">0</h3>
-                            </div>
-						</div>
-						<div class="row">
-                            <div class="col-sm-6">
-                                <h3>Seconds Remaining: </h3>
-                            </div>
-                            <div class="col-sm-6">
-                                <h3 id="clock">0</h3>
-                            </div>
-						</div>
-						<div class="row">
-                            <div class="col-sm-12">
-                                <h3 id="deathPrompt"></h3>
-                            </div>
-                        </div>
+                        <canvas id="layer1" width="1270" height="900" style="position: absolute; z-index: 0;"></canvas>
+                        <canvas id="layer2" width="1270" height="900" style="position: absolute; z-index: 1;"></canvas>
+                        <canvas id="layer3" width="1270" height="900" style="position: absolute; z-index: 2;"></canvas>
                     </div>
                 </div>
             </div>
